@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>てらこや公式サイト</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fef9f3;
+        }
+
+        /* ヘッダー・ナビゲーション */
+        header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* メインコンテンツ */
+        main {
+            margin-top: 80px;
+        }
+
+        section {
+            padding: 4rem 0;
+            margin: 2rem 0;
+        }
+
+        .section-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 3px solid #f0f0f0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #ff6b9d;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            text-align: center;
+            padding: 6rem 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* 学年別人数表示 */
+        .grade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .grade-card {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .grade-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .grade-card h3 {
+            font-size: 1.5rem;
+            color: #2d3436;
+            margin-bottom: 1rem;
+        }
+
+        .grade-card .number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #e17055;
+        }
+
+        /* クラブ紹介 */
+        .club-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .club-card {
+            background: linear-gradient(135deg, #a29bfe, #fd79a8);
+            color: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .club-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .club-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .club-card .member-count {
+            background-color: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* お知らせ */
+        .news-item {
+            background: #fff;
+            border-left: 5px solid #ff6b9d;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .news-date {
+            color: #74b9ff;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .news-title {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            color: #2d3436;
+        }
+
+        /* フォーム */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2d3436;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff6b9d;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: #fff;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* フッター */
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: rgba(255, 154, 158, 0.95);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding: 2rem 0;
+                backdrop-filter: blur(10px);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .grade-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .club-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 全セクションを縦に配置表示 */
+        .section {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">🏫 てらこや</div>
+                <ul class="nav-menu">
+                    <li><a href="#" onclick="showSection('home')">ホーム</a></li>
+                    <li><a href="#" onclick="showSection('students')">年間人数紹介</a></li>
+                    <li><a href="#" onclick="showSection('clubs')">クラブ紹介</a></li>
+                    <li><a href="#" onclick="showSection('events')">年間行事</a></li>
+                    <li><a href="#" onclick="showSection('news')">お知らせ</a></li>
+                    <li><a href="#" onclick="showSection('access')">アクセス情報</a></li>
+                </ul>
+                <div class="hamburger" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- ホーム（トップページ） -->
+        <section id="home" class="section">
+            <div class="hero">
+                <div class="container">
+                    <h1>🌟 ようこそ、てらこやへ！ 🌟</h1>
+                    <p>みんなで学び、みんなで育つ場所</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="section-card">
+                    <h2 class="section-title">🏠 てらこやについて</h2>
+                    <p style="text-align: center; font-size: 1.2rem; color: #636e72;">
+                        てらこやは勉強というより自分がやりたいことを思う存分できるところです。<br>
+                        クラブ活動はもちろん、普通に外でスポーツしたりもできます。<br>
+                        新しい友達と出会い、たくさんの経験ができます。✨
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 年間人数紹介 -->
+        <section id="students" class="section">
+            <div class="container">
+                <div class="section-card">
+                    <h2 class="section-title">📊 2025年度 在籍児童数</h2>
+                    <div class="grade-grid">
+                        <div class="grade-card">
+                            <h3>1年生</h3>
+                            <div class="number">3人</div>
+                        </div>
+                        <div class="grade-card">
+                            <h3>2年生</h3>
+                            <div class="number">4人</div>
+                        </div>
+                        <div class="grade-card">
+                            <h3>3年生</h3>
+                            <div class="number">4人</div>
+                        </div>
+                        <div class="grade-card">
+                            <h3>4年生</h3>
+                            <div class="number">3人</div>
+                        </div>
+                        <div class="grade-card">
+                            <h3>5年生</h3>
+                            <div class="number">6人</div>
+                        </div>
+                        <div class="grade-card">
+                            <h3>6年生</h3>
+                            <div class="number">4人</div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <p style="font-size: 1.5rem; font-weight: 600; color: #e17055;">
+                            🎉 合計：24人のお友達が一緒に学んでいます！
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- クラブ紹介 -->
+        <section id="clubs" class="section">
+            <div class="container">
+                <div class="section-card">
+                    <h2 class="section-title">🎯 クラブ紹介</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem; color: #636e72;">
+                        クラブは自分が入りたいと思ったら入る、入りたくないと思った人は入らない、自由参加です！✨
+                    </p>
+                    <div class="club-grid">
+                        <div class="club-card">
+                            <h3>🎴 百人一首クラブ</h3>
+                            <div class="member-count">10人参加中</div>
+                            <p>日本の伝統的な百人一首を通して、言葉の美しさや歴史を学びます。みんなで競技かるたにも挑戦しています！</p>
+                        </div>
+                        <div class="club-card">
+                            <h3>🌍 英語クラブ</h3>
+                            <div class="member-count">初級〜上級レベル</div>
+                            <p>英語に触れたい子どもたちのためのクラブです。歌やゲーム、会話練習、読み書きなど、それぞれのレベルに合わせて楽しく英語を学びます。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 年間行事 -->
+        <section id="events" class="section">
+            <div class="container">
+                <div class="section-card">
+                    <h2 class="section-title">🎭 2025年年間行事</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem; color: #636e72;">
+                        てらこやでは毎年楽しい行事がたくさんあります！みんなで素敵な思い出を作りましょう✨
+                    </p>
+                    <div class="events-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                        <div class="event-card" style="background: linear-gradient(135deg, #74b9ff, #0984e3); color: #fff; padding: 2.5rem; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: transform 0.3s ease;">
+                            <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">🏕️ キャンプ</h3>
+                            <p style="line-height: 1.6;">
+                                自然の中でテント泊や野外活動を楽しみます。キャンプファイヤーや星空観察など、普段できない体験がいっぱい！
+                            </p>
+                        </div>
+                        <div class="event-card" style="background: linear-gradient(135deg, #00cec9, #00b894); color: #fff; padding: 2.5rem; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: transform 0.3s ease;">
+                            <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">🏊‍♂️ 遠泳</h3>
+                            <div style="background-color: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem; font-weight: 600;">夏開催</div>
+                            <p style="line-height: 1.6;">
+                                基本1.5kmの遠泳にチャレンジします。往復にチャレンジしたい人は3kmコースもあります。海での泳力向上と挑戦する気持ちを育てます！
+                            </p>
+                        </div>
+                        <div class="event-card" style="background: linear-gradient(135deg, #55a3ff, #003d82); color: #fff; padding: 2.5rem; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: transform 0.3s ease;">
+                            <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">🚶‍♂️ 萩往還</h3>
+                            <p style="line-height: 1.6;">
+                                歴史ある萩往還を歩く伝統行事です。みんなで助け合いながら長い道のりを歩き、達成感を味わいます。
+                            </p>
+                        </div>
+                        <div class="event-card" style="background: linear-gradient(135deg, #fd79a8, #e84393); color: #fff; padding: 2.5rem; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: transform 0.3s ease;">
+                            <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">✈️ 修学旅行</h3>
+                            <div style="background-color: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem; font-weight: 600;">5・6年生対象</div>
+                            <p style="line-height: 1.6;">
+                                5・6年生が参加する特別な旅行です。普段見ることのできない場所を訪れ、学年の絆を深めます。
+                            </p>
+                        </div>
+                        <div class="event-card" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); color: #fff; padding: 2.5rem; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: transform 0.3s ease;">
+                            <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">❄️ 雪山キャンプ</h3>
+                            <div style="background-color: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; display: inline-block; margin-bottom: 1rem; font-weight: 600;">冬開催</div>
+                            <p style="line-height: 1.6;">
+                                雪山での特別なキャンプ体験です。雪遊びやスキー、雪だるま作りなど冬ならではの活動を楽しみます。寒さに負けない強い心を育てます！
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- お知らせ -->
+        <section id="news" class="section">
+            <div class="container">
+                <div class="section-card">
+                    <h2 class="section-title">📢 お知らせ</h2>
+                    <div class="news-item">
+                        <div class="news-date">2025年7月20日</div>
+                        <h3 class="news-title">🎴 百人一首クラブが8月17日広島チャンピオンズカップに出場します！</h3>
+                        <p>百人一首クラブのメンバーが広島で開催される全国大会「チャンピオンズカップ」に出場します。みんなで応援しましょう！</p>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-date">2025年7月24日</div>
+                        <h3 class="news-title">🏊‍♂️ 遠泳7月24日に行われました</h3>
+                        <p>今年の遠泳が無事に開催されました。みんな一生懸命に泳ぎ、素晴らしい挑戦を見せてくれました！参加者の皆さん、お疲れ様でした。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- アクセス情報 -->
+        <section id="access" class="section">
+            <div class="container">
+                <div class="section-card">
+                    <h2 class="section-title">🗺️ アクセス情報</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+                        <div>
+                            <h3 style="color: #ff6b9d; margin-bottom: 1rem;">📍 住所・連絡先</h3>
+                            <p style="margin-bottom: 1rem; line-height: 1.8;">
+                                オルタナティブスクール　てらこや<br>
+                                〒742-1105　山口県熊毛郡平生町大野北1177<br><br>
+                                📞 TEL: 03-1234-5678<br>
+                                📧 Email: info@terakoya.com
+                            </p>
+                            <h3 style="color: #ff6b9d; margin: 2rem 0 1rem 0;">🚃 交通アクセス</h3>
+                            <p style="line-height: 1.8;">
+                                • JR山手線「品川駅」徒歩8分<br>
+                                • 京急本線「品川駅」徒歩10分<br>
+                                • 都営バス「てらこや前」バス停徒歩1分
+                            </p>
+                        </div>
+                        <div>
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d423713.64394563984!2d131.57103535!3d33.93436720000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35451726a4c19983%3A0x7a30d670a5585a8f!2z44GT44Oz44Go44Gu44GK44GG44Gh44GI44KTJuOCquODq-OCv-ODiuODhuOCo-ODluOCueOCr-ODvOODq-WcsOeQg-WtkOiIju-8iOOBpuOCieOBk-OChA!5e0!3m2!1sja!2sjp!4v1753485526349!5m2!1sja!2sjp" 
+                                width="100%" 
+                                height="300" 
+                                style="border:0; border-radius: 10px;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 てらこや公式サイト. All rights reserved. 🌈</p>
+        </div>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            // 指定されたセクションにスムーズスクロール
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+            
+            // モバイルメニューを閉じる
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.remove('active');
+        }
+
+        function toggleMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
