@@ -43,25 +43,37 @@
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
             color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Noto Sans JP', sans-serif;
+            white-space: nowrap;
         }
 
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.5rem;
+            align-items: center;
         }
 
         .nav-menu a {
             color: #fff;
             text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
             transition: all 0.3s ease;
+            white-space: nowrap;
+            text-align: center;
+            letter-spacing: 0.5px;
         }
 
         .nav-menu a:hover {
@@ -295,6 +307,13 @@
                 box-shadow: 0 10px 27px rgba(0,0,0,0.05);
                 padding: 2rem 0;
                 backdrop-filter: blur(10px);
+                gap: 0.5rem;
+            }
+
+            .nav-menu a {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+                margin: 0 1rem;
             }
 
             .nav-menu.active {
@@ -303,6 +322,14 @@
 
             .hamburger {
                 display: flex;
+            }
+
+            .logo {
+                font-size: 1.6rem;
+            }
+
+            .logo span:first-child {
+                font-size: 1.8rem !important;
             }
 
             .hero h1 {
@@ -342,13 +369,19 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">🏫 てらこや</div>
+                <div class="logo">
+                    <span style="font-size: 2.2rem;">🏫</span>
+                    <span>てらこや</span>
+                </div>
                 <ul class="nav-menu">
                     <li><a href="#" onclick="showSection('home')">ホーム</a></li>
                     <li><a href="#" onclick="showSection('students')">年間人数紹介</a></li>
                     <li><a href="#" onclick="showSection('clubs')">クラブ紹介</a></li>
+                    <li><a href="#" onclick="showSection('daily')">一日の流れ</a></li>
                     <li><a href="#" onclick="showSection('events')">年間行事</a></li>
                     <li><a href="#" onclick="showSection('news')">お知らせ</a></li>
+                    <li><a href="#" onclick="showSection('visit')">見学について</a></li>
+                    <li><a href="#" onclick="showSection('game')">ゲーム</a></li>
                     <li><a href="#" onclick="showSection('access')">アクセス情報</a></li>
                 </ul>
                 <div class="hamburger" onclick="toggleMenu()">
@@ -445,6 +478,87 @@
             </div>
         </section>
 
+        <!-- 一日の流れ -->
+        <section id="daily" class="section">
+            <div class="container">
+                <div class="section-card">
+                    <h2 class="section-title">🌅 一日の流れ</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; font-size: 1.2rem; color: #636e72;">
+                        てらこやでの一日はどんなふうに過ごすのかな？みんなで作る特別な時間です✨
+                    </p>
+                    
+                    <div style="display: grid; gap: 2rem;">
+                        <!-- 朝のミーティング -->
+                        <div style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e); padding: 2.5rem; border-radius: 20px; position: relative;">
+                            <div style="position: absolute; top: -15px; left: 20px; background: #e17055; color: #fff; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">朝</div>
+                            <h3 style="color: #2d3436; margin-bottom: 1.5rem; font-size: 1.8rem; display: flex; align-items: center; gap: 0.5rem;">
+                                🌅 朝のミーティング
+                            </h3>
+                            <p style="color: #2d3436; line-height: 1.7; font-size: 1.1rem;">
+                                一日のプランを自分で決めて、デザインし、言葉にし、みなで聴きあい、そして話しあう大切な時間。<br>
+                                みなに聴いてほしいこと、困っていることも、シェアし、話し合う時間です。
+                            </p>
+                        </div>
+
+                        <!-- プランの時間 -->
+                        <div style="background: linear-gradient(135deg, #74b9ff, #0984e3); color: #fff; padding: 2.5rem; border-radius: 20px; position: relative;">
+                            <div style="position: absolute; top: -15px; left: 20px; background: #00b894; color: #fff; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">午前〜午後</div>
+                            <h3 style="margin-bottom: 1.5rem; font-size: 1.8rem; display: flex; align-items: center; gap: 0.5rem;">
+                                🎯 プランの時間
+                            </h3>
+                            <p style="line-height: 1.7; font-size: 1.1rem; margin-bottom: 1.5rem;">
+                                基本的にやりたいことを選んで決めてやる時間です。
+                            </p>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                                <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 15px;">
+                                    <h4 style="margin-bottom: 1rem; font-size: 1.3rem;">👦👧 子どもからのプラン</h4>
+                                    <p style="line-height: 1.6; opacity: 0.95;">
+                                        １日のプラン、数日のプラン、長期的なプロジェクト（たとえば小屋つくり）など
+                                    </p>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 15px;">
+                                    <h4 style="margin-bottom: 1rem; font-size: 1.3rem;">👨‍🏫 スタッフプラン</h4>
+                                    <p style="line-height: 1.6; opacity: 0.95; margin-bottom: 1rem;">
+                                        子どもからでるプラン以外に子どもの興味関心、年齢や発達に応じた内容を提案し、子どもと話し合って決めます。
+                                    </p>
+                                    <div style="opacity: 0.9; font-size: 0.95rem;">
+                                        <strong>室内活動：</strong>家づくり、手芸、工作、音楽、運動、実験、アート、劇、料理、農作業<br>
+                                        <strong>外出活動：</strong>旅、キャンプ、山、海、川、釣り、サイクリング<br>
+                                        <strong>その他：</strong>様々な分野の達人や体験の授業
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 昼食 -->
+                        <div style="background: linear-gradient(135deg, #00cec9, #00b894); color: #fff; padding: 2.5rem; border-radius: 20px; position: relative;">
+                            <div style="position: absolute; top: -15px; left: 20px; background: #fd79a8; color: #fff; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">お昼</div>
+                            <h3 style="margin-bottom: 1.5rem; font-size: 1.8rem; display: flex; align-items: center; gap: 0.5rem;">
+                                🍚 昼食
+                            </h3>
+                            <p style="line-height: 1.7; font-size: 1.1rem;">
+                                自分たちで育てた米や野菜をなるべく使った和食中心の料理。<br>
+                                自分たちで収穫し、ときには料理する体験を大切にします。
+                            </p>
+                        </div>
+
+                        <!-- 清掃、さよならミーティング -->
+                        <div style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); color: #fff; padding: 2.5rem; border-radius: 20px; position: relative;">
+                            <div style="position: absolute; top: -15px; left: 20px; background: #e84393; color: #fff; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">夕方</div>
+                            <h3 style="margin-bottom: 1.5rem; font-size: 1.8rem; display: flex; align-items: center; gap: 0.5rem;">
+                                🧹 清掃・さよならミーティング
+                            </h3>
+                            <p style="line-height: 1.7; font-size: 1.1rem;">
+                                一日を振り返り、文字や言葉にし、聴きあう時間。<br>
+                                一日の中で困ったこと、哀しかったこと、うれしかったことをシェアし、話し合う時間です。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- 年間行事 -->
         <section id="events" class="section">
             <div class="container">
@@ -506,6 +620,116 @@
                         <div class="news-date">2025年7月24日</div>
                         <h3 class="news-title">🏊‍♂️ 遠泳7月24日に行われました</h3>
                         <p>今年の遠泳が無事に開催されました。みんな一生懸命に泳ぎ、素晴らしい挑戦を見せてくれました！参加者の皆さん、お疲れ様でした。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 見学について -->
+        <section id="visit" class="section">
+            <div class="container">
+                <div class="section-card">
+                    <h2 class="section-title">👀 見学希望の方へ</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; font-size: 1.2rem; color: #636e72;">
+                        てらこやの見学はいつでも大歓迎です！お気軽にお越しください✨
+                    </p>
+                    
+                    <div style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                        <h3 style="color: #2d3436; margin-bottom: 1rem; font-size: 1.5rem;">📅 見学について</h3>
+                        <p style="color: #2d3436; line-height: 1.7; font-size: 1.1rem;">
+                            見学は、<strong>いつでも可能</strong>です。<br>
+                            プランにより、外出してる場合も多いので、<strong>前もってご相談ください。</strong>
+                        </p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div style="background: linear-gradient(135deg, #74b9ff, #0984e3); color: #fff; padding: 2rem; border-radius: 15px; text-align: center;">
+                            <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">👨‍👩‍👧‍👦 大人</h4>
+                            <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">3,000円</div>
+                            <p style="font-size: 0.9rem; opacity: 0.9;">（食費込み）</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #fd79a8, #e84393); color: #fff; padding: 2rem; border-radius: 15px; text-align: center;">
+                            <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">🧒 小学生以下</h4>
+                            <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">1,000円</div>
+                            <p style="font-size: 0.9rem; opacity: 0.9;">（食費込み）</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); color: #fff; padding: 2rem; border-radius: 15px; text-align: center;">
+                            <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">🛏️ 宿泊</h4>
+                            <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">1,000円</div>
+                            <p style="font-size: 0.9rem; opacity: 0.9;">一人あたり</p>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #00cec9, #00b894); color: #fff; padding: 2rem; border-radius: 15px; text-align: center;">
+                            <h4 style="font-size: 1.3rem; margin-bottom: 1rem;">🌟 一日体験</h4>
+                            <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">2,500円</div>
+                            <p style="font-size: 0.9rem; opacity: 0.9;">入学希望の子</p>
+                        </div>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; margin-top: 2rem; border-left: 5px solid #00b894;">
+                        <h3 style="color: #2d3436; margin-bottom: 1rem; font-size: 1.3rem;">📞 見学のお申し込み</h3>
+                        <p style="color: #636e72; line-height: 1.7;">
+                            見学をご希望の方は、事前にお電話またはメールでご連絡ください。<br>
+                            スタッフが丁寧にご案内いたします。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ゲーム -->
+        <section id="game" class="section">
+            <div class="container">
+                <div class="section-card">
+                    <h2 class="section-title">🎮 じゃんけんゲーム</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; font-size: 1.2rem; color: #636e72;">
+                        てらこやの仲間と一緒にじゃんけんで遊ぼう！✊✋✌️
+                    </p>
+                    
+                    <div id="janken-game" style="text-align: center; max-width: 600px; margin: 0 auto;">
+                        <div style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
+                            <h3 style="color: #2d3436; margin-bottom: 1rem;">🤖 コンピューターと対戦</h3>
+                            <div id="game-result" style="font-size: 1.5rem; margin: 1rem 0; min-height: 50px; color: #2d3436;"></div>
+                            
+                            <div style="display: flex; justify-content: center; gap: 1rem; margin: 2rem 0;">
+                                <div id="player-choice" style="font-size: 4rem; background: #fff; padding: 1rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); min-width: 80px;">❓</div>
+                                <div style="font-size: 3rem; padding: 1rem; display: flex; align-items: center;">VS</div>
+                                <div id="computer-choice" style="font-size: 4rem; background: #fff; padding: 1rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); min-width: 80px;">❓</div>
+                            </div>
+                            
+                            <div style="margin: 2rem 0;">
+                                <p style="color: #2d3436; margin-bottom: 1rem; font-weight: 600;">あなたの手を選んでね！</p>
+                                <div style="display: flex; justify-content: center; gap: 1rem;">
+                                    <button onclick="playJanken('rock')" style="font-size: 3rem; padding: 1rem; background: linear-gradient(135deg, #74b9ff, #0984e3); color: #fff; border: none; border-radius: 15px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">✊</button>
+                                    <button onclick="playJanken('paper')" style="font-size: 3rem; padding: 1rem; background: linear-gradient(135deg, #00cec9, #00b894); color: #fff; border: none; border-radius: 15px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">✋</button>
+                                    <button onclick="playJanken('scissors')" style="font-size: 3rem; padding: 1rem; background: linear-gradient(135deg, #fd79a8, #e84393); color: #fff; border: none; border-radius: 15px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">✌️</button>
+                                </div>
+                                <div style="margin-top: 1rem; color: #636e72;">
+                                    <small>✊ グー　✋ パー　✌️ チョキ</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: linear-gradient(135deg, #a29bfe, #6c5ce7); color: #fff; padding: 2rem; border-radius: 20px;">
+                            <h3 style="margin-bottom: 1rem;">📊 スコア</h3>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+                                <div>
+                                    <div style="font-size: 2rem; font-weight: 700;" id="win-count">0</div>
+                                    <div style="opacity: 0.9;">勝ち</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 2rem; font-weight: 700;" id="draw-count">0</div>
+                                    <div style="opacity: 0.9;">あいこ</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 2rem; font-weight: 700;" id="lose-count">0</div>
+                                    <div style="opacity: 0.9;">負け</div>
+                                </div>
+                            </div>
+                            <button onclick="resetScore()" style="margin-top: 1rem; padding: 0.5rem 1.5rem; background: rgba(255,255,255,0.2); color: #fff; border: none; border-radius: 10px; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">スコアリセット</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -575,6 +799,60 @@
         function toggleMenu() {
             const navMenu = document.querySelector('.nav-menu');
             navMenu.classList.toggle('active');
+        }
+
+        // じゃんけんゲーム
+        let wins = 0;
+        let draws = 0;
+        let losses = 0;
+
+        function playJanken(playerChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            
+            const emojis = {
+                'rock': '✊',
+                'paper': '✋',
+                'scissors': '✌️'
+            };
+            
+            // 選択を表示
+            document.getElementById('player-choice').textContent = emojis[playerChoice];
+            document.getElementById('computer-choice').textContent = emojis[computerChoice];
+            
+            // 結果判定
+            let result = '';
+            if (playerChoice === computerChoice) {
+                result = '🤝 あいこです！';
+                draws++;
+                document.getElementById('draw-count').textContent = draws;
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                result = '🎉 あなたの勝ちです！';
+                wins++;
+                document.getElementById('win-count').textContent = wins;
+            } else {
+                result = '😅 あなたの負けです！';
+                losses++;
+                document.getElementById('lose-count').textContent = losses;
+            }
+            
+            document.getElementById('game-result').textContent = result;
+        }
+
+        function resetScore() {
+            wins = 0;
+            draws = 0;
+            losses = 0;
+            document.getElementById('win-count').textContent = '0';
+            document.getElementById('draw-count').textContent = '0';
+            document.getElementById('lose-count').textContent = '0';
+            document.getElementById('game-result').textContent = '';
+            document.getElementById('player-choice').textContent = '❓';
+            document.getElementById('computer-choice').textContent = '❓';
         }
     </script>
 </body>
