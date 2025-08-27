@@ -63,7 +63,16 @@ export async function POST(req: NextRequest) {
       const newContent = insertItemIntoArraySource(content, 'blogPosts', item);
       const message = `chore(content): add blog post '${data.title}'`;
       const res = await updateFile(path, newContent, message, sha);
-      return NextResponse.json({ ok: true, slug: baseSlug, commit: res.commit?.sha }, { headers: corsHeaders() });
+      // Optional: trigger Vercel deploy hook
+      let triggered = false;
+      const hook = process.env.VERCEL_DEPLOY_HOOK_URL;
+      if (hook) {
+        try {
+          await fetch(hook, { method: 'POST' });
+          triggered = true;
+        } catch {}
+      }
+      return NextResponse.json({ ok: true, slug: baseSlug, commit: res.commit?.sha, deployTriggered: triggered }, { headers: corsHeaders() });
     }
 
     if (data.type === 'news') {
@@ -79,7 +88,16 @@ export async function POST(req: NextRequest) {
       const newContent = insertItemIntoArraySource(content, 'newsItems', item);
       const message = `chore(content): add news '${data.title}'`;
       const res = await updateFile(path, newContent, message, sha);
-      return NextResponse.json({ ok: true, slug: baseSlug, commit: res.commit?.sha }, { headers: corsHeaders() });
+      // Optional: trigger Vercel deploy hook
+      let triggered = false;
+      const hook = process.env.VERCEL_DEPLOY_HOOK_URL;
+      if (hook) {
+        try {
+          await fetch(hook, { method: 'POST' });
+          triggered = true;
+        } catch {}
+      }
+      return NextResponse.json({ ok: true, slug: baseSlug, commit: res.commit?.sha, deployTriggered: triggered }, { headers: corsHeaders() });
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400, headers: corsHeaders() });
@@ -87,4 +105,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: e?.message || 'Unknown error' }, { status: 500, headers: corsHeaders() });
   }
 }
-

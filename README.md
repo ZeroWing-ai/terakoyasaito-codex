@@ -78,4 +78,13 @@ Add these in Project Settings → Environment Variables:
 - `GITHUB_REPO`: e.g. `ZeroWing-ai/terakoyasaito-codex`
 - `GITHUB_BRANCH`: optional (defaults to `main`)
 
+Optional:
+
+- `VERCEL_DEPLOY_HOOK_URL`: Project Settings → Deploy Hooks で作成したURL。
+  これを設定すると、APIがGitHubへコミット後にこのフックを叩き、自動で再デプロイを開始します。
+
+Notes:
+- 本サイトは `src/content/*.ts` をビルド時に読み込むため、投稿内容が反映されるには再デプロイが必要です。
+- VercelのGit連携が対象リポジトリ（`ZeroWing-ai/terakoyasaito-codex`）の`main`に接続されていることを確認してください。
+
 When the API is called, it commits the change to GitHub which triggers a fresh Vercel deploy.
