@@ -34,3 +34,48 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Content updates via Admin API
+
+This project renders blog/news from TypeScript arrays under `src/content/`.
+For non-technical updates, an admin API can append new entries and trigger redeploy via GitHub.
+
+### API endpoint
+
+- URL: `/api/admin/publish`
+- Method: `POST`
+- Header: `x-admin-secret: <ADMIN_SECRET>`
+- Body (JSON):
+  - Blog:
+    ```json
+    {
+      "type": "blog",
+      "title": "タイトル",
+      "date": "2025-07-28",
+      "slug": "optional-slug",
+      "excerpt": "短い紹介文",
+      "content": "本文（改行OK）",
+      "tags": ["任意タグ"]
+    }
+    ```
+  - News:
+    ```json
+    {
+      "type": "news",
+      "title": "お知らせタイトル",
+      "date": "2025-07-28",
+      "slug": "optional-slug",
+      "body": "本文（任意）"
+    }
+    ```
+
+### Environment variables (Vercel)
+
+Add these in Project Settings → Environment Variables:
+
+- `ADMIN_SECRET`: shared secret for the admin endpoint
+- `GITHUB_TOKEN`: GitHub token with `repo` scope (can update contents)
+- `GITHUB_REPO`: e.g. `ZeroWing-ai/terakoyasaito-codex`
+- `GITHUB_BRANCH`: optional (defaults to `main`)
+
+When the API is called, it commits the change to GitHub which triggers a fresh Vercel deploy.
