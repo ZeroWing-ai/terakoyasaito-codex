@@ -88,3 +88,17 @@ Notes:
 - VercelのGit連携が対象リポジトリ（`ZeroWing-ai/terakoyasaito-codex`）の`main`に接続されていることを確認してください。
 
 When the API is called, it commits the change to GitHub which triggers a fresh Vercel deploy.
+
+## Admin UI (/admin)
+
+- Built-in admin page at `/admin` to post News/Blog.
+- It calls `/api/admin/publish` with `x-admin-secret` you enter on the page (saved in browser).
+- Optional Basic Auth for `/admin` via middleware:
+  - `ADMIN_BASIC_USER`: username
+  - `ADMIN_BASIC_PASS`: password
+- Recommended env vars (Vercel → Project Settings → Environment Variables):
+  - `ADMIN_SECRET` (required)
+  - `GITHUB_TOKEN` (required)
+  - `GITHUB_REPO` (required)
+  - `GITHUB_BRANCH` (optional)
+  - `VERCEL_DEPLOY_HOOK_URL` (optional, to auto-redeploy)
