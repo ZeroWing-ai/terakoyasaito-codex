@@ -2,6 +2,7 @@ export const runtime = 'nodejs';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getFile, updateFile, insertItemIntoArraySource, slugify, toTsString } from '@/lib/github';
+import { isAuthorized } from '@/lib/admins';
 
 function corsHeaders() {
   return {
@@ -35,13 +36,8 @@ type NewsPayload = {
 
 export async function POST(req: NextRequest) {
   try {
-    const secret = req.headers.get('x-admin-secret');
-    if (!process.env.ADMIN_SECRET) {
-      return NextResponse.json({ error: 'Server not configured: ADMIN_SECRET missing' }, { status: 500, headers: corsHeaders() });
-    }
-    if (secret !== process.env.ADMIN_SECRET) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders() });
-    }
+    const auth = await isAuthorized(req.headers as any);
+    if (!auth.ok) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: corsHeaders() });
 
     const data = (await req.json()) as BlogPayload | NewsPayload;
     const today = new Date();

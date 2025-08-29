@@ -24,6 +24,43 @@ export async function getFile(path: string) {
   return { sha: json.sha as string, content };
 }
 
+export async function getFileNullable(path: string) {
+  try {
+    return await getFile(path);
+  } catch (e: any) {
+    if (e?.message?.includes('Failed to fetch file') || e?.message?.includes('404')) {
+      return null;
+    }
+    throw e;
+  }
+}
+
+export async function putFile(path: string, newContent: string, message: string, sha?: string) {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) throw new Error("Missing GITHUB_TOKEN env var");
+  const { owner, repo, branch } = parseRepo(process.env.GITHUB_REPO);
+  const body: any = {
+    message,
+    content: Buffer.from(newContent, "utf8").toString("base64"),
+    branch,
+  };
+  if (sha) body.sha = sha;
+  const res = await fetch(`${GITHUB_API}/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github+json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Failed to put file: ${res.status} ${text}`);
+  }
+  return res.json();
+}
+
 export async function updateFile(path: string, newContent: string, message: string, sha: string) {
   const token = process.env.GITHUB_TOKEN;
   if (!token) throw new Error("Missing GITHUB_TOKEN env var");
@@ -77,4 +114,3 @@ export function slugify(input: string) {
 export function toTsString(value: string) {
   return JSON.stringify(value);
 }
-

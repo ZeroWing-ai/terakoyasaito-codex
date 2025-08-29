@@ -11,10 +11,11 @@ type ApiResult = {
 };
 
 export default function AdminPage() {
-  const [secret, setSecret] = useState('');
+  const [secret, setSecret] = useState(''); // secret or token
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<ApiResult | null>(null);
   const [diag, setDiag] = useState<any>(null);
+  const [who, setWho] = useState<any>(null);
 
   useEffect(() => {
     const s = localStorage.getItem('admin_secret');
@@ -23,6 +24,13 @@ export default function AdminPage() {
       .then((r) => r.json())
       .then(setDiag)
       .catch(() => {});
+    // try whoami with stored secret
+    if (s) {
+      fetch('/api/admin/whoami', { headers: { 'x-admin-secret': s, 'x-admin-token': s } })
+        .then((r) => r.json())
+        .then(setWho)
+        .catch(() => {});
+    }
   }, []);
 
   function saveSecret(value: string) {
@@ -36,7 +44,7 @@ export default function AdminPage() {
     try {
       const res = await fetch('/api/admin/publish', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-admin-secret': secret },
+        headers: { 'Content-Type': 'application/json', 'x-admin-secret': secret, 'x-admin-token': secret },
         body: JSON.stringify(payload),
       });
       const json = await res.json();
@@ -64,16 +72,21 @@ export default function AdminPage() {
 
             <div style={{ marginTop: 16, padding: 12, background: '#f8fafc', borderRadius: 8 }}>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <label style={{ minWidth: 120 }}>Admin Secret</label>
+                <label style={{ minWidth: 120 }}>Secret / Token</label>
                 <input
                   type="password"
                   value={secret}
                   onChange={(e) => saveSecret(e.target.value)}
-                  placeholder="ADMIN_SECRET"
+                  placeholder="ADMIN_SECRET または 個人トークン"
                   style={{ flex: 1, padding: 8, border: '1px solid #e2e8f0', borderRadius: 6 }}
                 />
               </div>
               <small style={{ color: '#64748b' }}>Vercel環境変数に設定した <code>ADMIN_SECRET</code> を入力します。ブラウザに保存されます。</small>
+              {who?.authorized && (
+                <div style={{ marginTop: 8, color: '#334155' }}>
+                  ログイン中: {who?.mode === 'master' ? 'マスター管理者' : '管理者'} {who?.admin?.email ? `(${who.admin.email})` : ''}
+                </div>
+              )}
             </div>
 
             {diag && (
@@ -99,6 +112,7 @@ export default function AdminPage() {
             <div style={{ display: 'grid', gap: 24, marginTop: 24 }}>
               <BlogForm busy={busy} onSubmit={(payload) => publish({ type: 'blog', ...payload })} />
               <NewsForm busy={busy} onSubmit={(payload) => publish({ type: 'news', ...payload })} />
+              <AdminsPanel secret={secret} />
             </div>
 
             {result && (
@@ -199,3 +213,78 @@ function NewsForm({ busy, onSubmit }: { busy: boolean; onSubmit: (payload: any) 
   );
 }
 
+function AdminsPanel({ secret }: { secret: string }) {
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [list, setList] = useState<any[] | null>(null);
+  const [gen, setGen] = useState<{ token?: string; id?: string; error?: string } | null>(null);
+
+  useEffect(() => {
+    if (!secret) return;
+    fetch('/api/admin/admins', { headers: { 'x-admin-secret': secret, 'x-admin-token': secret } })
+      .then((r) => r.json())
+      .then((j) => setList(j.admins || []))
+      .catch(() => setList(null));
+  }, [secret]);
+
+  async function add() {
+    setGen(null);
+    try {
+      const res = await fetch('/api/admin/admins', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-secret': secret, 'x-admin-token': secret },
+        body: JSON.stringify({ email: email || undefined, name: name || undefined }),
+      });
+      const j = await res.json();
+      if (!res.ok || !j.ok) throw new Error(j.error || 'failed');
+      setGen({ token: j.token, id: j.id });
+      // refresh list
+      fetch('/api/admin/admins', { headers: { 'x-admin-secret': secret, 'x-admin-token': secret } })
+        .then((r) => r.json())
+        .then((jj) => setList(jj.admins || []))
+        .catch(() => {});
+    } catch (e: any) {
+      setGen({ error: e?.message || 'error' });
+    }
+  }
+
+  return (
+    <div style={{ padding: 16, border: '1px solid #e5e7eb', borderRadius: 10 }}>
+      <h2 style={{ marginTop: 0 }}>👤 管理者の追加</h2>
+      <div style={{ display: 'grid', gap: 10 }}>
+        <Row label="メール"><TextInput value={email} onChange={(e) => setEmail(e.target.value)} placeholder="任意" /></Row>
+        <Row label="名前"><TextInput value={name} onChange={(e) => setName(e.target.value)} placeholder="任意" /></Row>
+        <div>
+          <Button onClick={add}>管理者を追加</Button>
+        </div>
+      </div>
+      {gen?.token && (
+        <div style={{ marginTop: 12, padding: 10, background: '#ecfdf5', color: '#065f46', borderRadius: 8 }}>
+          トークンを発行しました（この画面でしか表示されません）。新しい管理者へ安全に共有してください。
+          <div style={{ fontFamily: 'monospace', marginTop: 6 }}>{gen.token}</div>
+        </div>
+      )}
+      {gen?.error && (
+        <div style={{ marginTop: 12, padding: 10, background: '#fef2f2', color: '#7f1d1d', borderRadius: 8 }}>エラー: {gen.error}</div>
+      )}
+      <div style={{ marginTop: 20 }}>
+        <h3 style={{ margin: '8px 0' }}>現在の管理者</h3>
+        <div style={{ display: 'grid', gap: 6 }}>
+          {Array.isArray(list) && list.length > 0 ? (
+            list.map((a) => (
+              <div key={a.id} style={{ display: 'flex', justifyContent: 'space-between', border: '1px solid #e5e7eb', borderRadius: 8, padding: 8 }}>
+                <div>
+                  <div style={{ fontWeight: 600 }}>{a.name || '(no name)'}</div>
+                  <div style={{ color: '#64748b', fontSize: 12 }}>{a.email || '(no email)'}</div>
+                </div>
+                <div style={{ color: a.active ? '#16a34a' : '#dc2626', alignSelf: 'center' }}>{a.active ? 'active' : 'inactive'}</div>
+              </div>
+            ))
+          ) : (
+            <div style={{ color: '#64748b' }}>登録された管理者はいません</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
